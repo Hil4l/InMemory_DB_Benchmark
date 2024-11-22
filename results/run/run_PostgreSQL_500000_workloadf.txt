@@ -1,0 +1,2 @@
+Adding shard node URL: jdbc:postgresql://localhost:5432/ycsb_db
+Using shards: 1, batchSize:-1, fetchSize: -1

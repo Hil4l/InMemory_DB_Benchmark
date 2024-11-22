@@ -37,17 +37,10 @@ https://jdbc.postgresql.org/download/ (place in [lib])
 
 +  ``curl -O --location https://github.com/brianfrankcooper/YCSB/releases/download/0.17.0/ycsb-0.17.0.tar.gz``
 + ``tar xfvz ycsb-0.17.0.tar.gz``
-+ ``cd ycsb-0.17.0``
 
-## Run commands
+## Benchmark
 
-**Redis/Memcached**
-
-```
-bin/ycsb load redis -P workloads/workloada -p redis.host=localhost
-```
-
-**PostgreSQL with JDBC driver**:
+**Set up PostgreSQL with JDBC driver**:
 
 + Place jdbc driver in 'jdbc-binding/lib' (or use -cp path_to_driver in command)
 
@@ -78,8 +71,37 @@ CREATE TABLE usertable (
 );
 ```
 
-+ run commands
+**Run scripts**:
 
 ```
-bin/ycsb load jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada 
+./benchmark.sh
 ```
+
+<!-- TODO: see db properties postgre Optimization (btachsize) -->
+
+
+<!-- bin/ycsb load jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada -p recordcount=1000
+bin/ycsb run jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada -p recordcount=1000
+
+
+bin/ycsb load memcached -P workloads/workloada -p memcached.hosts=localhost -p recordcount=1000
+bin/ycsb run memcached -P workloads/workloada -p memcached.hosts=localhost -p recordcount=1000
+
+bin/ycsb load redis -P workloads/workloada -p redis.host=localhost -p recordcount=1000
+bin/ycsb run redis -P workloads/workloada -p redis.host=localhost -p recordcount=1000 -->
+
+
+<!-- this si the YCSB redis cllient class insert method:
+
+ @Override
+  public Status insert(String table, String key,
+      Map<String, ByteIterator> values) {
+    if (jedis.hmset(key, StringByteIterator.getStringMap(values))
+        .equals("OK")) {
+      jedis.zadd(INDEX_KEY, hash(key), key);
+      return Status.OK;
+    }
+    return Status.ERROR;
+  }
+
+can you explain what it does (it isnt a simple insert, it uses redis hashmap?) and confirm that an insert on an already existing key results in an overwrite ? because with memcached i get an insertion error whith duplicate keys,so i have to use service restart to clean the db-->
