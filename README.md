@@ -71,16 +71,25 @@ CREATE TABLE usertable (
 );
 ```
 
+**Start services**
++ postgresql
++ memcached
+
+if plan to use recordcounts>100k: increase memory limit from 64MB to 1GB otherwise queries will fail due to evicted keys 
+
+``memcached -m 1024 -u memcache -d``
+
++ redis
+
 **Run scripts**:
 
-```
-./benchmark.sh
-```
++ ``` ./benchmark_size_vs_lat.sh```
 
-<!-- TODO: see db properties postgre Optimization (btachsize) -->
++ ```./benchmark_thr_vs_lat.sh```
 
 
-<!-- bin/ycsb load jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada -p recordcount=1000
+<!-- 
+bin/ycsb load jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada -p recordcount=1000
 bin/ycsb run jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada -p recordcount=1000
 
 
@@ -89,19 +98,3 @@ bin/ycsb run memcached -P workloads/workloada -p memcached.hosts=localhost -p re
 
 bin/ycsb load redis -P workloads/workloada -p redis.host=localhost -p recordcount=1000
 bin/ycsb run redis -P workloads/workloada -p redis.host=localhost -p recordcount=1000 -->
-
-
-<!-- this si the YCSB redis cllient class insert method:
-
- @Override
-  public Status insert(String table, String key,
-      Map<String, ByteIterator> values) {
-    if (jedis.hmset(key, StringByteIterator.getStringMap(values))
-        .equals("OK")) {
-      jedis.zadd(INDEX_KEY, hash(key), key);
-      return Status.OK;
-    }
-    return Status.ERROR;
-  }
-
-can you explain what it does (it isnt a simple insert, it uses redis hashmap?) and confirm that an insert on an already existing key results in an overwrite ? because with memcached i get an insertion error whith duplicate keys,so i have to use service restart to clean the db-->
