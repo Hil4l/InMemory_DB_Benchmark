@@ -2,7 +2,7 @@
 
 # databases=("redis" "memcached" "postgresql")
 
-databases=("memcached")
+databases=("postgresql")
 workloads=("a" "b" "f")
 throughputs=(1000 3000 5000)
 
