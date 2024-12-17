@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# databases=("redis" "memcached" "postgresql")
 
-databases=("postgresql")
+databases=("redis" "memcached" "postgresql")
 workloads=("a" "b" "f")
 throughputs=(1000 3000 5000)
 

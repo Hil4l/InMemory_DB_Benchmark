@@ -1,12 +1,8 @@
 #!/bin/bash
 
-# databases=("redis" "memcached" "postgresql")
-# workloads=("a" "b" "c" "f")
-# recordcounts=(1000 10000 100000 500000)
-
-databases=("redis")
-workloads=("f")
-recordcounts=(1000 10000)
+databases=("redis" "memcached" "postgresql")
+workloads=("a" "b" "f")
+recordcounts=(1000 10000 100000 500000)
 
 for db in "${databases[@]}"; do
 

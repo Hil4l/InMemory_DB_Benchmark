@@ -72,14 +72,13 @@ CREATE TABLE usertable (
 ```
 
 **Start services**
-+ postgresql
-+ memcached
++ postgresql: `` sudo service postgresql start ``
 
-if plan to use recordcounts>100k: increase memory limit from 64MB to 1GB otherwise queries will fail due to evicted keys 
++ memcached: ``sudo service memcached start``
 
-``memcached -m 1024 -u memcache -d``
+(if plan to use recordcounts>100k: increase memory limit from 64MB to 1GB otherwise queries will fail due to evicted keys ``memcached -m 1024 -u memcache -d``)
 
-+ redis
++ redis: ``sudo service redis-server start``
 
 **Run scripts**:
 
@@ -87,6 +86,9 @@ if plan to use recordcounts>100k: increase memory limit from 64MB to 1GB otherwi
 
 + ```./benchmark_thr_vs_lat.sh```
 
+**Make plots**:
+
+run specific notebooks in ``./results`` (plots are saved as png files in ``./results/plots``)
 
 <!-- 
 bin/ycsb load jdbc -P jdbc-binding/conf/db.properties -P workloads/workloada -p recordcount=1000
